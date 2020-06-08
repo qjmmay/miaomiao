@@ -1,0 +1,48 @@
+*{
+    margin:0;
+    padding:0;
+}
+img{
+    width: 100%;
+}
+ui,li{
+    list-style: none;
+}
+body,html{
+    height: 100%;
+}
+
+.pic-show{
+    height: 90px;
+    width: 70px;
+    margin-right: 10px;
+}
+.pic-show img {
+    width: 100%;
+}
+.movie-detail{
+    margin-right: 20px;
+}
+.movie-detail p {
+    font-size: 13px;
+    color: #666;
+    line-height: 24px;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.movie-detail h2 {
+    font-size: 17px;
+    line-height: 24px;
+    width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.content-container{
+    width: 100%;
+    overflow: auto;
+    position: absolute;
+    top:95px;
+    bottom:52px;
+}
