@@ -39,8 +39,6 @@
 <style scoped>
     .cinema-content {
         width: 100%;
-        position: absolute;
-        top: 50px;
     }
 
     .content-menu {
@@ -49,6 +47,8 @@
         display: flex;
         justify-content: space-around;
         border-bottom: 1px solid #ebe8e3;
+        position: absolute;
+        top:49px;
     }
 
     .content-menu .menu-item {

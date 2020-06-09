@@ -1,112 +1,19 @@
 <template>
     <div class="content-container">
         <ul>
-            <li>
+            <li v-for="(item,key) in moviesList" :key="key">
                 <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
+                    <img :src="item.img | setWH('108.130')">
                 </div>
                 <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
+                    <h2>{{item.nm}}</h2>
+                    <p>观众评<span class="score">{{item.sc}}</span></p>
+                    <p>{{item.star}}</p>
                     <p>
-                        今天310家电影院放映29场
+                        上映时间：{{item.rt}}
                     </p>
-                </div>
-                <div class="btn-buy">
-                    <span>购票</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
                     <p>
-                        今天310家电影院放映29场
-                    </p>
-                </div>
-                <div class="btn-buy">
-                    <span>购票</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
-                    <p>
-                        今天310家电影院放映29场
-                    </p>
-                </div>
-                <div class="btn-buy">
-                    <span>购票</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
-                    <p>
-                        今天310家电影院放映29场
-                    </p>
-                </div>
-                <div class="btn-buy">
-                    <span>购票</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
-                    <p>
-                        今天310家电影院放映29场
-                    </p>
-                </div>
-                <div class="btn-buy">
-                    <span>购票</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
-                    <p>
-                        今天310家电影院放映29场
-                    </p>
-                </div>
-                <div class="btn-buy">
-                    <span>购票</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>惊奇队长</h2>
-                    <p>观众评<span class="score">9.5</span></p>
-                    <p>主演:詹姆斯，布拉拉尔森,迈克杰讯数据发送腐</p>
-                    <p>
-                        今天310家电影院放映29场
+                       播放场次：{{item.wish}}
                     </p>
                 </div>
                 <div class="btn-buy">
@@ -119,7 +26,21 @@
 
 <script>
     export default {
-        name: "index"
+        name: "index",
+        data(){
+            return{
+                moviesList:[],
+            }
+        },
+        mounted() {
+            this.axios.get('/api/movieOnInfoList?cityId=10').then(res=>{
+                var msg=res.data.msg;
+                if(msg==='ok'){
+                   // var movieList=res.data.data.movieList
+                    this.moviesList=res.data.data.movieList
+                }
+            })
+        }
     }
 </script>
 
@@ -146,5 +67,7 @@
         border-radius: 5px;
         width: 47px;
         height: 27px;
+        position: absolute;
+        right: 10px;
     }
 </style>
