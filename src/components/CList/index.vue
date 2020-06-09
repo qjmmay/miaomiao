@@ -1,42 +1,13 @@
 <template>
     <div class="cinema-list">
-        <div class="list-item">
-            <h3>UA电影城（上海梅龙镇广场店）<span class="money">元起</span></h3>
-            <p>静安区南京西路1038号梅龙镇广场10楼（近江宁路）</p>
+        <div class="list-item" v-for="(item,index) in cinemaList" :key="index">
+            <h3>{{item.nm}}<span class="money">元起</span></h3>
+            <p>{{item.addr}}</p>
             <div class="other">
-                <span class="change">改签</span>
-                <span class="exit">退</span>
-                <span class="discount">折扣卡</span>
-                <span class="snack">小吃</span>
+                <div v-for="(num,index) in item.tag" v-if="num===1" :key="index" :class="index | classCard">{{index | formatCard}}</div>
             </div>
             <div class="km">
-                <span>112km</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>UA电影城（上海梅龙镇广场店）<span class="money">元起</span></h3>
-            <p>静安区南京西路1038号梅龙镇广场10楼（近江宁路）</p>
-            <div class="other">
-                <span class="change">改签</span>
-                <span class="exit">退</span>
-                <span class="discount">折扣卡</span>
-                <span class="snack">小吃</span>
-            </div>
-            <div class="km">
-                <span>112km</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>UA电影城（上海梅龙镇广场店）<span class="money">元起</span></h3>
-            <p>静安区南京西路1038号梅龙镇广场10楼（近江宁路）</p>
-            <div class="other">
-                <span class="change">改签</span>
-                <span class="exit">退</span>
-                <span class="discount">折扣卡</span>
-                <span class="snack">小吃</span>
-            </div>
-            <div class="km">
-                <span>112km</span>
+                <span>{{item.distance}}</span>
             </div>
         </div>
     </div>
@@ -44,7 +15,52 @@
 
 <script>
     export default {
-        name: "index"
+        name: "index",
+        data(){
+            return{
+                cinemaList:[],
+                tag:Object,
+            }
+        },
+        mounted() {
+            this.axios.get('/api/cinemaList?cityId=10').then(res=>{
+                var msg=res.data.msg
+                if(msg==='ok'){
+                    this.cinemaList=res.data.data.cinemas;
+                    console.log(res.data.data.cinemas)
+                }
+            })
+        },
+        filters:{
+            formatCard(key){
+                var card=[
+                    {key:'allowRefund',value:'退款'},
+                    {key:'endorse',value:'改签'},
+                    {key:'sell',value:'购买'},
+                    {key:'snack',value:'小吃'}
+                ];
+                for(var i=0;i<card.length;i++){
+                    if(key===card[i].key){
+                        return card[i].value
+                    }
+                }
+                return '';
+            },
+            classCard(key){
+                var card=[
+                    {key:'allowRefund',value:'bl'},
+                    {key:'endorse',value:'bl'},
+                    {key:'sell',value:'re'},
+                    {key:'snack',value:'re'}
+                ];
+                for(var i=0;i<card.length;i++){
+                    if(key===card[i].key){
+                        return card[i].value
+                    }
+                }
+                return '';
+            }
+        }
     }
 </script>
 
@@ -52,28 +68,40 @@
     .cinema-list {
         width: 100%;
         overflow: auto;
+        position: absolute;
+        top:95px;
+        bottom:52px;
     }
 
     .cinema-list .list-item {
-        margin: 20px 15px;
+        margin: 15px;
         padding-bottom: 15px;
         border-bottom: 1px solid #ebe8e3;
     }
 
-    .cinema-list .list-item h3 {
+    .cinema-list .list-item h3{
 
         font-size: 17px;
         font-weight: normal;
+        overflow: hidden;
+        width: 300px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .cinema-list .list-item h3 .money {
+    .cinema-list .list-item h3 .money{
         font-size: 11px;
         color: #f03d37;
+        margin-left: 10px;
     }
 
     .cinema-list .list-item p {
         font-size: 13px;
         color: #666;
+        width: 340px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         line-height: 40px;
     }
 
@@ -85,15 +113,20 @@
     }
     .other{
         display: flex;
+        font-size: 12px;
     }
-    .cinema-list .list-item .exit, .cinema-list .list-item .change {
+    .cinema-list .list-item .bl{
         border: 1px solid #589daf;
         color: #589daf;
+        padding: 2px 5px;
+        margin-right: 10px;
     }
 
-    .cinema-list .list-item .snack, .cinema-list .list-item .discount {
+    .cinema-list .list-item .re{
         border: 1px solid #f90;
+        margin-right: 10px;
         color: #f90;
+        padding: 2px 5px;
     }
     .cinema-list .list-item .km{
         float: right;

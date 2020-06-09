@@ -1,94 +1,45 @@
 <template>
     <div class="content-container">
         <ul>
-            <li>
+            <li v-for="(item,index) in comingList" :key="index">
                 <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/movie/d3f2c33b95e10f54dc402de27bb4bdc11292214.jpg">
+                    <img :src="item.img | setWH('108.130')">
                 </div>
                 <div class="movie-detail">
-                    <h2>麦兜·饭宝奇兵 </h2>
-                    <p><span class="score">2012321</span>人想看</p>
-                    <p>主演: 大汪,孙小妞,张正中</p>
+                    <h2>{{item.nm}}</h2>
+                    <p><span class="score">{{item.wish}}</span>人想看</p>
+                    <p>{{item.star}}</p>
                     <p>
-                        2020-04-25上映
+                       {{item.rt}}
+                    </p>
+                    <p>
+                       上映时间: {{item.comingTitle}}
                     </p>
                 </div>
                 <div class="btn-pre">
                     <span>预售</span>
                 </div>
             </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/movie/d3f2c33b95e10f54dc402de27bb4bdc11292214.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>麦兜·饭宝奇兵 </h2>
-                    <p><span class="score">2012321</span>人想看</p>
-                    <p>主演: 大汪,孙小妞,张正中</p>
-                    <p>
-                        2020-04-25上映
-                    </p>
-                </div>
-                <div class="btn-pre">
-                    <span>预售</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/movie/d3f2c33b95e10f54dc402de27bb4bdc11292214.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>麦兜·饭宝奇兵 </h2>
-                    <p><span class="score">2012321</span>人想看</p>
-                    <p>主演: 大汪,孙小妞,张正中</p>
-                    <p>
-                        2020-04-25上映
-                    </p>
-                </div>
-                <div class="btn-pre">
-                    <span>预售</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/movie/d3f2c33b95e10f54dc402de27bb4bdc11292214.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>麦兜·饭宝奇兵 </h2>
-                    <p><span class="score">2012321</span>人想看</p>
-                    <p>主演: 大汪,孙小妞,张正中</p>
-                    <p>
-                        2020-04-25上映
-                    </p>
-                </div>
-                <div class="btn-pre">
-                    <span>预售</span>
-                </div>
-            </li>
-            <li>
-                <div class="pic-show">
-                    <img src="http://p1.meituan.net/128.180/movie/d3f2c33b95e10f54dc402de27bb4bdc11292214.jpg">
-                </div>
-                <div class="movie-detail">
-                    <h2>麦兜·饭宝奇兵 </h2>
-                    <p><span class="score">2012321</span>人想看</p>
-                    <p>主演: 大汪,孙小妞,张正中</p>
-                    <p>
-                        2020-04-25上映
-                    </p>
-                </div>
-                <div class="btn-pre">
-                    <span>预售</span>
-                </div>
-            </li>
-
         </ul>
     </div>
 </template>
 
 <script>
     export default {
-        name: "index"
+        name: "index",
+        data(){
+            return{
+                comingList:[],
+            }
+        },
+        mounted() {
+            this.axios.get('/api/movieComingList?cityId=10').then(res=>{
+                var msg=res.data.msg
+                if(msg==='ok'){
+                    this.comingList=res.data.data.comingList;
+                }
+            })
+        }
     }
 </script>
 
@@ -105,5 +56,7 @@
         font-size: 12px;
         padding: 5px 10px;
         border-radius: 5px;
+        position: absolute;
+        right: 10px;
     }
 </style>
