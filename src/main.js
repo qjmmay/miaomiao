@@ -9,7 +9,11 @@ Vue.prototype.axios=axios;
 Vue.filter('setWH',(url,arg)=>{
   return url.replace(/w\.h/,arg)
 });
+import BScroller from '@/components/Scroll'
+Vue.component('BScroller',BScroller);
 
+import Loading from '@/components/Loading'
+Vue.component('Loading',Loading);
 Vue.config.productionTip = false;
 new Vue({
   router,
