@@ -1,5 +1,6 @@
 <template>
     <div class="header-container">
+        <slot></slot>
         <h2>{{headerTitle}}</h2>
     </div>
 </template>

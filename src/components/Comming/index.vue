@@ -4,11 +4,11 @@
         <BScroller v-else>
             <ul>
                 <li v-for="(item,index) in comingList" :key="index">
-                    <div class="pic-show">
+                    <div class="pic-show" @tap="handleToDetail(item.id)">
                         <img :src="item.img | setWH('108.130')">
                     </div>
                     <div class="movie-detail">
-                        <h2>{{item.nm}}</h2>
+                        <h2 @tap="handleToDetail(item.id)">{{item.nm}}</h2>
                         <p><span class="score">{{item.wish}}</span>人想看</p>
                         <p>{{item.star}}</p>
                         <p>
@@ -51,7 +51,9 @@
             })
         },
         methods:{
-
+            handleToDetail(movieId){
+                this.$router.push('/movie/detail/2/'+movieId);
+            }
         }
     }
 </script>

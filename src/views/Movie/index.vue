@@ -23,13 +23,15 @@
             </keep-alive>
         </div>
         <Footer></Footer>
+        <router-view name="detail"></router-view>
     </div>
 </template>
 
 <script>
     import Header from '@/components/Header'
     import Footer from '@/components/Footer';
-    import  {messageBox} from '@/components/JS'
+    import {messageBox} from '@/components/JS'
+
     export default {
         name: "index",
         components: {Header, Footer},
@@ -38,13 +40,13 @@
         },
         mounted() {
 
-            setTimeout(()=> {
-                var self=this;
+            setTimeout(() => {
+                var self = this;
                 this.axios.get('/api/getLocation').then(res => {
                     var msg = res.data.msg;
-                    var nm=res.data.data.nm;
-                    var id=res.data.data.id
-                    if(this.$store.state.city.id==id){
+                    var nm = res.data.data.nm;
+                    var id = res.data.data.id
+                    if (this.$store.state.city.id == id) {
                         return;
                     }
                     if (msg === 'ok') {
@@ -58,15 +60,15 @@
                             },
                             handleOK() {
                                 //更改本地存储或者状态管理
-                                self.$store.commit('city/CITY_INFO',{nm,id})
-                            /*   window.localStorage.setItem('nowNm',nm);
-                                window.localStorage.setItem('nowId',id);*/
+                                self.$store.commit('city/CITY_INFO', {nm, id})
+                                /*   window.localStorage.setItem('nowNm',nm);
+                                    window.localStorage.setItem('nowId',id);*/
                                 window.location.reload();
                             }
                         })
                     }
                 })
-            },3000)
+            }, 3000)
 
 
         }

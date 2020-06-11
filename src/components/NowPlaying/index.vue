@@ -5,11 +5,11 @@
         <ul>
             <li class="pulldown">{{this.pullDown}}</li>
             <li v-for="(item,key) in moviesList" :key="key">
-                <div class="pic-show">
-                    <img :src="item.img | setWH('108.130')" @tap="handleToDetail()">
+                <div class="pic-show" @tap="handleToDetail(item.id)">
+                    <img :src="item.img | setWH('108.130')">
                 </div>
                 <div class="movie-detail">
-                    <h2>{{item.nm}}</h2>
+                    <h2 @tap="handleToDetail(item.id)">{{item.nm}}</h2>
                     <p>观众评<span class="score">{{item.sc}}</span></p>
                     <p>{{item.star}}</p>
                     <p>
@@ -55,8 +55,8 @@
             })
         },
         methods:{
-            handleToDetail(){
-                console.log('iok')
+            handleToDetail(movieId){
+                this.$router.push('/movie/detail/1/'+movieId)
             },
             handleToScroll(pos){
                 if (pos.y > 30) {

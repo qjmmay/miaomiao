@@ -109,7 +109,6 @@
             handleToIndex(index) {
                 console.log('dsd' + index)
                 var first = this.$refs.city_sort.getElementsByClassName('f-letter');
-                console.log(first[index])
                 this.$refs.city_list.toScrollTop(-first[index].offsetTop)
             },
             handleToCity(nm,id){
