@@ -4,7 +4,7 @@
         <div class="content">
             <div class="movie-menu">
                 <router-link class="city-name" tag="div" to="/movie/city">
-                    <span>上海</span>
+                    <span>{{$store.state.city.nm}}</span>
                     <i class="iconfont iconxiangxiajiantou"></i>
                 </router-link>
                 <router-link class="hot-playing" tag="div" to="/movie/nowPlaying">
@@ -29,47 +29,92 @@
 <script>
     import Header from '@/components/Header'
     import Footer from '@/components/Footer';
-
+    import  {messageBox} from '@/components/JS'
     export default {
         name: "index",
         components: {Header, Footer},
         data() {
             return {}
+        },
+        mounted() {
+
+            setTimeout(()=> {
+                var self=this;
+                this.axios.get('/api/getLocation').then(res => {
+                    var msg = res.data.msg;
+                    var nm=res.data.data.nm;
+                    var id=res.data.data.id
+                    if(this.$store.state.city.id==id){
+                        return;
+                    }
+                    if (msg === 'ok') {
+                        messageBox({
+                            title: '定位',
+                            content: nm,
+                            cancle: '取消',
+                            ok: '切换定位',
+                            handleCancel() {
+
+                            },
+                            handleOK() {
+                                //更改本地存储或者状态管理
+                                self.$store.commit('city/CITY_INFO',{nm,id})
+                            /*   window.localStorage.setItem('nowNm',nm);
+                                window.localStorage.setItem('nowId',id);*/
+                                window.location.reload();
+                            }
+                        })
+                    }
+                })
+            },3000)
+
+
         }
     }
 </script>
 
 <style scoped>
-    .content{
+    .content {
         width: 100%;
     }
-    .content .movie-menu{
+
+    .content .movie-menu {
         width: 100%;
         display: flex;
-        height:45px;
+        height: 45px;
         position: absolute;
-        top:49px;
+        top: 49px;
         justify-content: space-around;
         border-bottom: 2px solid #ebe8e3;
     }
-    .movie-menu > div{
+
+    .movie-menu > div {
         font-size: 16px;
         line-height: 45px;
     }
 
-    .movie-menu > div.router-link-active{
-        color:var(--active-color);
+    .movie-menu > div:visited {
+        color: var(--active-color);
         border-bottom: 2px solid var(--active-color);
     }
-    .movie-menu .city-name i.iconfont{
+
+    .movie-menu > div.router-link-active {
+        color: var(--active-color);
+        border-bottom: 2px solid var(--active-color);
+    }
+
+
+    .movie-menu .city-name i.iconfont {
         font-size: 12px;
     }
-    .hot-playing,.come-movie {
+
+    .hot-playing, .come-movie {
         font-weight: 600;
         opacity: 0.7;
     }
-    .movie-menu .search i.iconfont{
-        color:var(--active-color);
+
+    .movie-menu .search i.iconfont {
+        color: var(--active-color);
         font-size: 22px;
     }
 </style>
